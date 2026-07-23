@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, setAuthState] = useState<AuthStateProps>({
     user: null,
     error: null,
-    loading: false
+    loading: true
   });
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = async (): Promise<void> => {
     setAuthState((prev) => ({ ...prev, loading: true }));
     try {
-      await firebaseSignOut(firebaseAuth,)
+      await firebaseSignOut(firebaseAuth)
     } catch (err) {
       const message = err instanceof Error ? err.message : "Erro ao tentar logar"
       setAuthState((prev) => ({ ...prev, loading: false, error: message }));

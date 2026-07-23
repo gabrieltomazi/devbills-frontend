@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { useAuth } from "../context/authContext";
@@ -9,11 +9,16 @@ export default function LoginPage() {
 
   const { signWithGoogle, authState } = useAuth();
 
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+
   const handleLogin = async () => {
+    setIsLoggingIn(true)
     try {
       await signWithGoogle();
     } catch (error) {
       console.error("Erro ao fazer login com o Google", error)
+    } finally {
+      setIsLoggingIn(false)
     }
   }
 
@@ -22,6 +27,14 @@ export default function LoginPage() {
       navigate("/dashboard")
     }
   }, [authState.user, authState.loading, navigate])
+
+  if (authState.loading && !isLoggingIn) {
+    return (
+      <main className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <p>Carregando...</p>
+      </main>
+    )
+  }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
@@ -40,7 +53,7 @@ export default function LoginPage() {
               Acesse sua conta para começar a gerenciar suas finanças
             </p>
             <GoogleLoginButton
-              isLoading={false}
+              isLoading={authState.loading || isLoggingIn}
               onClick={handleLogin} />
 
             {authState.error && (
