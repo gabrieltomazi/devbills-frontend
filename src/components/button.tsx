@@ -1,8 +1,6 @@
-
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-
-type ButtonVariants = "primary" | "outline" | "secondary" | "success" | "danger"
+type ButtonVariants = "primary" | "outline" | "secondary" | "success" | "danger";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -11,17 +9,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-
 export default function Button({
-  children, 
-  variant = "primary", 
-  fullWidth=false, 
-  isLoading=false, 
+  children,
+  variant = "primary",
+  fullWidth = false,
+  isLoading = false,
   className,
-  disabled, 
+  disabled,
   ...rest
-} : ButtonProps) {
-
+}: ButtonProps) {
   const variantClasses = {
     primary:
       "bg-primary-500 text-[#051626] font-semibold hover:bg-primary-600 active:trasnlate-y-0",
@@ -54,18 +50,17 @@ export default function Button({
   );
 
   return (
-      <button 
-        type="button" 
-        className={`px-5 py-2.5 rounded-xl font-medium transition-all flex items-center justify-center cursor-pointer
+    <button
+      type="button"
+      className={`px-5 py-2.5 rounded-xl font-medium transition-all flex items-center justify-center cursor-pointer
         ${variantClasses[variant]} 
         ${className} 
-        ${fullWidth ? 'w-full' : ''} 
-        ${isLoading || disabled ? 'opacity-70 cursor-not-allowed' : ''}`}
-        disabled={isLoading || disabled}
-        {...rest}
-      >
-        {isLoading ? renderLoading() : children}
-      </button>
-  )
-
+        ${fullWidth ? "w-full" : ""} 
+        ${isLoading || disabled ? "opacity-70 cursor-not-allowed" : ""}`}
+      disabled={isLoading || disabled}
+      {...rest}
+    >
+      {isLoading ? renderLoading() : children}
+    </button>
+  );
 }
