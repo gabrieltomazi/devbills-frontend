@@ -1,6 +1,8 @@
 import { CreditCard, List, TrendingUp, Wallet } from "lucide-react";
 import type { JSX } from "react";
+import { useNavigate } from "react-router";
 import Button from "../components/button";
+import { useAuth } from "../context/authContext";
 
 interface Feature {
   icon: JSX.Element;
@@ -9,6 +11,11 @@ interface Feature {
 }
 
 export default function Home() {
+
+  const auth = useAuth();
+
+  const navigate = useNavigate();
+
   const features: ReadonlyArray<Feature> = [
     {
       icon: <Wallet className="w-8 h-8 text-primary-700" />,
@@ -44,7 +51,7 @@ export default function Home() {
           Uma plataforma simples e eficiente para controlar suas despesas e receitas. Organize suas
           finanças pessoais ou do seu negócio com facilidade.
         </p>
-        <Button variant="primary">Começar agora</Button>
+        <Button variant="primary" onClick={() => navigate('/login')}>Começar agora</Button>
       </div>
 
       <div className="mt-25 pt-12 px-4 bg-gray-900 rounded-xl">
@@ -74,7 +81,7 @@ export default function Home() {
             Comece a usar o DevBills hoje mesmo e tenha o controle total sobre seu dinheiro. É
             gratuito e fácil de usar!
           </p>
-          <Button>Criar Conta Gratuita</Button>
+          <Button onClick={() => navigate('/login')}>Criar Conta Gratuita</Button>
         </div>
       </section>
 
