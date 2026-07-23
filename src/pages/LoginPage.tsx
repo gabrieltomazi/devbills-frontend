@@ -1,6 +1,14 @@
+import { signInWithPopup } from "firebase/auth";
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import { firebaseAuth, googleAuthProvider } from '../config/firebase';
 
 export default function LoginPage() {
+
+  const handleLogin = async () => {
+    const result = await signInWithPopup(firebaseAuth, googleAuthProvider)
+    console.log("Usuário logado!", result)
+  }
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <section className="max-w-md">
@@ -17,7 +25,9 @@ export default function LoginPage() {
             <p className="font-medium text-[14px] opacity-60 mb-8">
               Acesse sua conta para começar a gerenciar suas finanças
             </p>
-            <GoogleLoginButton isLoading onClick={() => {}} />
+            <GoogleLoginButton
+              isLoading={false}
+              onClick={handleLogin} />
 
             <footer className="mt-6">
               <p className="text-[12px] text-center opacity-60 ">
