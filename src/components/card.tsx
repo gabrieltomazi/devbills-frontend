@@ -13,15 +13,14 @@ interface CardProps {
 export default function Card({
   children,
   className = "",
-  hover = false,
   icon,
   subtitle,
   title
 }: CardProps) {
 
   return (
-    <main className={`bg-gray-900 rounded-xl flex-1 p-4 border-2 border-green-500  transition-all duration-150 min-w-75 max-w-2xl
-    ${hover ? "hover:border-primary-500 hover:shadow-md hover:-translate-y-0.5 shadow-green-500" : ''}
+    <main className={`rounded-xl p-4 border border-gray-500 transition-all duration-250 min-w-75 max-w-2xl
+    hover:shadow-md hover:-translate-y-0.5 hover:border-primary-500
     ${className}
     `}>
       <div>

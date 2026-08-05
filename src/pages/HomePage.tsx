@@ -2,7 +2,6 @@ import { CreditCard, List, TrendingUp, Wallet } from "lucide-react";
 import type { JSX } from "react";
 import { useNavigate } from "react-router";
 import Button from "../components/button";
-import { useAuth } from "../context/authContext";
 
 interface Feature {
   icon: JSX.Element;
@@ -12,7 +11,6 @@ interface Feature {
 
 export default function Home() {
 
-  const auth = useAuth();
 
   const navigate = useNavigate();
 
