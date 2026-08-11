@@ -26,9 +26,13 @@ export default function Card({
       <div>
 
         <div className="flex gap-3 mb-4 items-center">
-          <div className="bg-gray-700 rounded-xl p-2">
-            {icon}
-          </div>
+          {icon && (
+
+            <div className="bg-gray-700 rounded-xl p-2">
+              {icon}
+            </div>
+          )}
+
           <h2>{title}</h2>
         </div>
 
