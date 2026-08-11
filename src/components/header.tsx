@@ -1,5 +1,6 @@
 import { Activity, LogOut } from "lucide-react";
 import Button from "./button";
+import { Link } from "react-router";
 
 
 
@@ -17,8 +18,8 @@ export default function Header() {
 
         {/* Botões principais */}
         <div className="gap-4 hidden sm:flex">
-          <Button className="bg-primary-500/10 text-primary-500 py-2 px-3 ">Dashboard</Button>
-          <Button variant="secondary" className="bg-transparent">Transações</Button>
+          <Link to={"/dashboard"} className="bg-primary-500/10 text-primary-500 py-2 px-3">Dashboard</Link>
+          <Link to={"/transacoes"} className="bg-transparent text-primary-500 py-2 px-3">Transações</Link>
         </div>
 
 
