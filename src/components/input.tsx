@@ -6,7 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactNode;
   id?: string;
   label?: string;
-  placeholder: string;
+  placeholder?: string;
 
 }
 
@@ -55,7 +55,9 @@ export default function Input({
         `}
         placeholder={placeholder}
         type="text"
-        id={inputId} />
+        id={inputId}
+        {...rest}
+      />
 
       {error && (
         <p className="mt-1 text-sm text-red-500">{error}</p>
