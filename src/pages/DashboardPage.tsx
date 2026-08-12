@@ -132,6 +132,7 @@ export default function DashboardPage() {
                       <Cell key={entry.categoryId} fill={entry.categoryColor} />
                     ))}
                   </Pie>
+                  <Legend/>
                   <Tooltip formatter={formatToolTipValue} />
                 </PieChart>
               </ResponsiveContainer>
