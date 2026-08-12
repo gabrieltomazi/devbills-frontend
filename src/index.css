@@ -41,3 +41,15 @@
 body {
   @apply bg-gray-950 text-gray-50 min-h-screen font-sans;
 }
+
+.container-app {
+  padding-inline: 1rem; /* px-4 (16px) */
+
+  @media (min-width: 48rem) { /* md: 768px (px-20 = 80px) */
+    padding-inline: 5rem;
+  }
+
+  @media (min-width: 96rem) { /* 2xl: 1536px (px-80 = 320px) */
+    padding-inline: 20rem;
+  }
+}

@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex justify-between w-full bg-gray-900 p-4 md:px-20 2xl:px-80 overflow-hidden">
+      <header className="flex justify-between container-app py-4 w-full bg-gray-900 overflow-hidden">
 
         {/* Logo */}
         <div className="flex items-center gap-2">

@@ -59,7 +59,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="px-4 md:px-20 2xl:px-80 space-y-5">
+    <main className="container-app space-y-5">
 
       <div className="flex flex-col sm:flex-row gap-2 justify-between">
         <h2 className="font-bold text-2xl">Dashboard</h2>
