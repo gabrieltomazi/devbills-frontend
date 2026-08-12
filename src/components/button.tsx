@@ -20,7 +20,7 @@ export default function Button({
 }: ButtonProps) {
   const variantClasses = {
     primary:
-      "bg-primary-500 text-[#051626] font-semibold hover:bg-primary-600 active:trasnlate-y-0",
+      "bg-primary-500 text-gray-900 font-semibold hover:bg-primary-600 active:translate-y-0",
     outline: "border border-primary-500 text-primary-500 hover:bg-primary-500/10 ",
     secondary: "bg-gray-800 text-white hover:bg-gray-700",
     success: "bg-green-500 text-[#051626] hover:brightness-90",

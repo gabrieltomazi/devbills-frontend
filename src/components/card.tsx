@@ -5,7 +5,6 @@ interface CardProps {
   glowEffect?: boolean;
   hover?: boolean;
   icon?: React.ReactNode;
-  subtitle?: string;
   title?: string;
 }
 
@@ -14,12 +13,11 @@ export default function Card({
   children,
   className = "",
   icon,
-  subtitle,
   title
 }: CardProps) {
 
   return (
-    <main className={`rounded-xl p-4 border border-gray-500 transition-all duration-250 min-w-75 max-w-2xl
+    <main className={`rounded-xl p-4 bg-gray-900 border border-gray-500 transition-all duration-250 min-w-75
     hover:shadow-md hover:-translate-y-0.5 hover:border-primary-500
     ${className}
     `}>
