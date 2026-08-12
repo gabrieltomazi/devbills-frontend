@@ -1,5 +1,5 @@
 import { Activity, LogOut } from "lucide-react";
-import Button from "./button";
+import { Link } from "react-router";
 
 
 
@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <>
-      <main className="flex justify-between w-full bg-gray-900 p-4 md:px-20 2xl:px-80 overflow-hidden">
+      <header className="flex justify-between container-app py-4 w-full bg-gray-900 overflow-hidden">
 
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -16,10 +16,10 @@ export default function Header() {
         </div>
 
         {/* Botões principais */}
-        <div className="gap-4 hidden sm:flex">
-          <Button className="bg-primary-500/10 text-primary-500 py-2 px-3 ">Dashboard</Button>
-          <Button variant="secondary" className="bg-transparent">Transações</Button>
-        </div>
+        <nav className="gap-4 hidden sm:flex">
+          <Link to={"/dashboard"} className="bg-primary-500/10 text-primary-500 py-2 px-3">Dashboard</Link>
+          <Link to={"/transacoes"} className="bg-transparent text-primary-500 py-2 px-3">Transações</Link>
+        </nav>
 
 
         <div className="flex items-center">
@@ -33,13 +33,13 @@ export default function Header() {
         </div>
 
 
-      </main>
+      </header>
 
       <section className="flex sm:hidden mx-auto py-2">
-        <div className="flex flex-row gap-4">
-          <Button className="bg-primary-500/10 text-primary-500 py-2 px-3 ">Dashboard</Button>
-          <Button variant="secondary" className="bg-transparent">Transações</Button>
-        </div>
+        <nav className="flex flex-row gap-4">
+          <Link to={"/dashboard"} className="bg-primary-500/10 text-primary-500 py-2 px-3">Dashboard</Link>
+          <Link to={"/transacoes"} className="bg-transparent text-primary-500 py-2 px-3">Transações</Link>
+        </nav>
       </section>
     </>
   )

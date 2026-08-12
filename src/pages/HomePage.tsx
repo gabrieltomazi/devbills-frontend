@@ -40,7 +40,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="bg-gray-950 min-h-screen px-4 lg:px-20 pt-20">
+    <main className="bg-gray-950 min-h-screen container-app pt-20">
       <div>
         <h1 className="font-bold text-4xl mb-6 sm:max-w-[50%]">
           Gerencie suas finanças com o <span className="text-primary-500">DevBills</span>
