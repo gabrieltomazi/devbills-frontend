@@ -1,75 +1,104 @@
-# React + TypeScript + Vite
+# 💻 DevBills - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **DevBills** é uma plataforma moderna e intuitiva de controle financeiro pessoal. Este repositório contém o código-fonte do **frontend** da aplicação, construído utilizando práticas modernas de desenvolvimento web para proporcionar uma experiência fluida, rápida e responsiva ao usuário.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Funcionalidades Principais
 
-## React Compiler
+*   **🔒 Autenticação Integrada**: Login rápido e seguro utilizando o Google Sign-In por meio do Firebase Authentication.
+*   **📊 Dashboard Financeiro**: Gráficos dinâmicos e interativos que mostram a distribuição de despesas por categoria, saldo total, receitas e despesas mensais.
+*   **💸 Gestão de Transações**: Tela dedicada para listagem completa de transações com suporte a criação, filtros e exclusão.
+*   **📅 Filtros Avançados**: Filtre suas transações por Categoria, Tipo (Receita/Despesa) e competência (Mês/Ano).
+*   **🎨 Design Premium**: Interface moderna construída com Tailwind CSS v4, suporte a feedback visual dinâmico com toasts de notificação.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologias Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O projeto foi construído com as seguintes tecnologias e bibliotecas:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+*   [**React**](https://react.dev/) — Biblioteca para construção de interfaces.
+*   [**TypeScript**](https://www.typescriptlang.org/) — Tipagem estática para maior segurança e produtividade.
+*   [**Vite**](https://vite.dev/) — Build tool ultra rápida para o ecossistema web.
+*   [**Tailwind CSS**](https://tailwindcss.com/) — Framework utilitário para estilização rápida e moderna.
+*   [**Axios**](https://axios-http.com/) — Cliente HTTP para comunicação com a API do backend.
+*   [**Recharts**](https://recharts.org/) — Biblioteca de gráficos interativos para React.
+*   [**Firebase Auth**](https://firebase.google.com/docs/auth) — Serviço de autenticação em nuvem.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
+## 📂 Estrutura de Pastas
+
+Abaixo está a organização de pastas dentro do diretório `src/`:
+
+```text
+src/
+├── config/         # Configurações de serviços externos (Firebase, API)
+├── context/        # Contextos do React (como AuthContext)
+├── pages/          # Páginas principais da aplicação (Dashboard, Formulários, etc.)
+├── components/     # Componentes visuais reutilizáveis (Inputs, Botões, Selects)
+├── services/       # Chamadas de API e integração com o backend
+├── types/          # Declaração de interfaces e tipos do TypeScript
+└── utils/          # Funções utilitárias e formatadores
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Como Executar o Projeto
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Siga os passos abaixo para rodar a aplicação localmente:
 
-```
+### Pré-requisitos
+Certifique-se de ter instalado em sua máquina:
+*   [Node.js](https://nodejs.org/)
+*   [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+
+---
+
+### Passo a Passo
+
+1.  **Clonar o repositório**:
+    ```bash
+    git clone https://github.com/gabrieltomazi/devbills-frontend.git
+    cd devbills-frontend
+    ```
+
+2.  **Instalar as dependências**:
+    ```bash
+    npm install
+    ```
+
+3.  **Configurar as Variáveis de Ambiente**:
+    Duplique o arquivo `.env.example` e renomeie-o para `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+    Preencha os valores das chaves do Firebase e a URL da sua API Backend:
+    ```env
+    VITE_API_URL=http://localhost:3333
+    VITE_FIREBASE_API_KEY=sua_api_key
+    VITE_FIREBASE_AUTH_DOMAIN=seu_auth_domain
+    VITE_FIREBASE_PROJECT_ID=seu_project_id
+    VITE_FIREBASE_STORAGE_BUCKET=seu_storage_bucket
+    VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
+    VITE_FIREBASE_APP_ID=seu_app_id
+    ```
+
+4.  **Iniciar o Servidor de Desenvolvimento**:
+    ```bash
+    npm run dev
+    ```
+    A aplicação estará disponível no endereço indicado no seu terminal (geralmente `http://localhost:5173`).
+
+---
+
+## ⚙️ Scripts Disponíveis
+
+No diretório do projeto, você pode executar:
+
+*   `npm run dev`: Executa a aplicação em modo de desenvolvimento.
+*   `npm run build`: Compila a aplicação para produção (gera os arquivos otimizados na pasta `dist`).
+*   `npm run lint`: Executa a checagem de erros do linter (ESLint / Biome).
+*   `npm run preview`: Visualiza localmente a build de produção gerada.
