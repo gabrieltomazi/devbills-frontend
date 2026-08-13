@@ -8,8 +8,9 @@ import Input from "../components/input";
 import Select from "../components/select";
 import TransactionTypeSelector from "../components/TransactionTypeSelector";
 import { getCategories } from "../services/categoryService";
+import { createTransaction } from "../services/transactionsService";
 import type { Category } from "../types/category.types";
-import { TransactionType } from "../types/transactions.types";
+import { type CreateTransactionDTO, TransactionType } from "../types/transactions.types";
 
 
 interface FormData {
@@ -69,12 +70,24 @@ export default function TransactionsForm() {
 
     try {
 
-      toast.error("Preencha todos os campos!")
       if (!validateForm()) {
+        toast.error("Preencha todos os campos!")
         return
       }
 
+      const transactionData: CreateTransactionDTO = {
+        description: formData.description,
+        amount: formData.amount,
+        categoryId: formData.categoryId,
+        type: formData.type,
+        date: `${formData.date}T12:00:00.000Z`
+      }
+      await createTransaction(transactionData);
+
+      toast.success("Transação adicionada com sucesso!")
+      navigate("/transacoes")
     } catch (err) {
+      toast.error("Falha ao adicionar transação")
       console.error("❌ Erro ao enviar o formulário", err)
     }
 

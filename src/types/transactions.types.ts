@@ -16,7 +16,14 @@ export interface Transaction {
   type: TransactionType;
   updatedAt: string | Date;
   createdAt: string | Date;
+}
 
+export interface CreateTransactionDTO {
+  description: string;
+  amount: number;
+  date: string | Date;
+  categoryId: string;
+  type: TransactionType;
 }
 
 export interface TransactionFilter {
@@ -30,7 +37,7 @@ export interface TransactionSummary {
   totalExpenses: number;
   totalIncomes: number;
   balance: number;
-  expensesByCategory: CategorySummary[]
+  expensesByCategory: CategorySummary[];
 }
 
 export interface MonthlyItem {
