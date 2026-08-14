@@ -20,7 +20,7 @@
 - [X] Rotas protegidas (`PrivateRoute`)
 - [X] Dashboard com gráficos (Recharts)
 - [X] Tela de listagem com filtros
-- [ ] Formulário de criação de transação
+- [X] Formulário de criação de transação
 - [X] Toasts com `react-toastify`
 - [X] Componentes reutilizáveis:
     - [X] `Card`

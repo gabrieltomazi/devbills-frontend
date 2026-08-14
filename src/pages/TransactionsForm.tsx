@@ -41,6 +41,7 @@ export default function TransactionsForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const formId = useId();
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null)
   const [categories, setCategories] = useState<Category[]>([])
   const filteredCategories = categories.filter(category => category.type === formData.type)
@@ -67,6 +68,8 @@ export default function TransactionsForm() {
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    setLoading(true);
+    setError(null)
 
     try {
 
@@ -89,6 +92,8 @@ export default function TransactionsForm() {
     } catch (err) {
       toast.error("Falha ao adicionar transação")
       console.error("❌ Erro ao enviar o formulário", err)
+    } finally {
+      setLoading(false);
     }
 
   }
@@ -203,17 +208,23 @@ export default function TransactionsForm() {
               onClick={handleCancel}
               variant="outline"
               type="button"
+              disabled={loading}
             >
               Cancelar
             </Button>
             <Button
               type="submit"
+              disabled={loading}
               variant={formData.type === TransactionType.EXPENSE
                 ? 'danger'
                 : "success"}
             >
-              <div className="flex gap-2">
-                <Save />
+              <div className="flex items-center gap-2">
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-5 h-5 border-4 border-black border-t-transparent rounded-full animate-spin" />
+                  </div>
+                ) : <Save />}
                 Salvar
               </div>
             </Button>
