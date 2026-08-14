@@ -1,4 +1,4 @@
-import { Activity, LogOut } from "lucide-react";
+import { Activity, LogIn, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "../context/authContext";
@@ -25,15 +25,20 @@ export default function Header() {
     signOut();
   }
 
+  const changeMenu = (): void => {
+    setIsOpen(!isOpen)
+  }
+
   const renderAvatar = () => {
     if (!authState.user) return null
 
     if (authState.user.photoUrl) {
-      <img
+      return <img
         src={authState.user.photoUrl}
         alt={`Foto de perfil de ${authState.user.displayName}`}
         className="w-8 h-8 rounded-full border border-gray-700"
       />
+
     }
 
     return (
@@ -45,48 +50,113 @@ export default function Header() {
   }
 
   return (
-    <>
-      <header className="bg-gray-900 flex justify-between container-app py-4 w-full border-gray-700 overflow-hidden">
+    <header className="bg-gray-900 border-b border-gray-700">
+      <div className="container-app">
+        <div className="flex justify-between items-center py-4">
 
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Activity className="text-primary-500" />
-          <p className="font-bold text-[20px] text-primary-500">DevBills</p>
-        </div>
+          {/* Logo */}
+          <Link to="/" className="flex gap-2 text-xl text-primary-500 items-center font-bold">
+            <Activity className=" h-6 w-6" />
+            DevBills
+          </Link>
 
-        {/* Botões principais */}
-        <nav className="gap-4 hidden sm:flex">
-          <Link to={"/dashboard"} className="bg-primary-500/10 text-primary-500 py-2 px-3">Dashboard</Link>
-          <Link to={"/transacoes"} className="bg-transparent text-primary-500 py-2 px-3">Transações</Link>
-        </nav>
+          {/* Menu Desktop */}
+          {isAuthenticated && (
+            <nav className="hidden md:flex space-x-3">
+              {
+                navLink.map(link => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`${pathname === link.path
+                      ? "text-primary-500 bg-primary-500/10 rounded-md h-10 px-3 py-2"
+                      : "text-gray-400 h-10 px-3 py-2 hover:text-primary-500 hover:bg-primary-500/5 rounded-md"}`}>
+                    {link.name}
+                  </Link>
+                ))
+              }
+            </nav>
+          )}
 
+          <div className="hidden md:flex items-center space-x-4">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
 
+                {/* AVATAR */}
+                <div className="flex items-center space-x-2">
+                  {renderAvatar()}
+                  <span className="text-sm font-medium">{authState.user.displayName}</span>
+                </div>
 
-
-        <div className="flex items-center">
-          <div className="h-8 w-8 rounded-full overflow-hidden mr-2">
-            <img src={authState.user.photoUrl} alt="users-photo" />
+                <button type="button">
+                  <LogOut className="text-red-500 cursor-pointer"
+                    onClick={handleSignOut}
+                  />
+                </button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <LogIn className="bg-primary-500 text-gray-900 font-semibold px-5 py-2.5 rounded-xl flex items-center justify-center hover:bg-primary-500 transition-all" />
+              </Link>
+            )}
           </div>
-          <p className="mr-4">{authState.user.displayName}</p>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="p-2 rounded-full "
-          >
-            <LogOut className="text-red-500 cursor-pointer" />
-          </button >
+
+          {/* Botão Mobile */}
+          <div className="md:hidden flex items-center ">
+            <button
+              className="text-gray-400 p-2 rounded-lg hover:bg-gray-800 transition-colors"
+              type="button"
+              onClick={changeMenu}
+            >{isOpen ? <X size={24} /> : <Menu size={24} />}</button>
+          </div>
+
         </div>
 
+        {isOpen && (
+          <div className="md:hidden pb-4">
+            <div>
+              {isAuthenticated ? (
 
-      </header>
+                <nav className="space-y-1">
+                  {navLink.map(link => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`block px-3 py-2 rounded-lg 
+                    ${pathname === link.path
+                          ? "bg-gray-800 text-primary-500 font-medium"
+                          : "text-gray-400 hover:bg-gray-800 hover:text-primary-500"
+                        }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
 
-      <section className="flex sm:hidden mx-auto py-2">
-        <nav className="flex flex-row gap-4">
-          <Link to={"/dashboard"} className="bg-primary-500/10 text-primary-500 py-2 px-3">Dashboard</Link>
-          <Link to={"/transacoes"} className="bg-transparent text-primary-500 py-2 px-3">Transações</Link>
-        </nav>
-      </section>
-    </>
+                  <div className="flex items-center justify-between p-4 border-t border-gray-700">
+                    <div className="flex items-center space-x-2">
+                      {renderAvatar()}
+                      <span>{authState.user?.displayName}</span>
+                    </div>
+                    <button type="button" onClick={handleSignOut}>
+                      <LogOut className="text-red-500 cursor-pointer" />
+                    </button>
+                  </div>
+
+                </nav>
+
+              ) : (
+                <Link to="/login" className="block text-center bg-primary-500 text-gray-900 font-semibold py-2 rounded-lg">
+                  Entrar
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
+
+      </div>
+    </header >
+
   )
 
 }

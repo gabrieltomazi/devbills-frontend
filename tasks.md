@@ -2,17 +2,17 @@
 
 ### 🔹 Requisitos de Negócio
 
-- [ ] Usuário pode:
+- [X] Usuário pode:
     - [X] Fazer login com Google
     - [X] Visualizar suas transações
-    - [ ] Filtrar transações por mês, ano, tipo e categoria
+    - [X] Filtrar transações por mês, ano, tipo e categoria
     - [X] Ver gráficos de despesas por categoria
     - [X] Ver histórico financeiro dos últimos meses
     - [X] Ver um resumo com saldo, receitas e despesas
-    - [ ] Criar uma nova transação (despesa ou receita)
+    - [X] Criar uma nova transação (despesa ou receita)
     - [X] Excluir uma transação
-    - [ ] Escolher uma categoria ao criar transações
-    - [ ] Ver mensagens amigáveis em caso de erro
+    - [X] Escolher uma categoria ao criar transações
+    - [X] Ver mensagens amigáveis em caso de erro
 
 ### 🔧 Requisitos Técnicos
 
