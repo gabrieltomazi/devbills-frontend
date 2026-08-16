@@ -16,8 +16,8 @@ const initialSummary: TransactionSummary = {
 }
 
 interface ChartLabelProps {
-  categoryName: string;
-  percent: number;
+  categoryName?: string;
+  percent?: number;
 
 }
 
@@ -50,12 +50,24 @@ export default function DashboardPage() {
   }, [month, year])
 
   const renderPieChartLabel = ({ categoryName, percent }: ChartLabelProps) => {
-    return `${categoryName}: ${(percent * 100).toFixed(1)}%`
+    return `${categoryName}: ${((percent ?? 0) * 100).toFixed(1)}%`
 
   }
 
-  const formatToolTipValue = (value: number | string): string => {
-    return formatCurrency(typeof value === "number" ? value : 0)
+  const formatToolTipValue = (value: number | string | readonly (number | string)[] | undefined): string => {
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    // Se o valor for um array, pegamos o primeiro item
+    const singleValue = Array.isArray(value) ? value[0] : value;
+    const numericValue = typeof singleValue === "number" ? singleValue : Number(singleValue);
+
+    if (Number.isNaN(numericValue)) {
+      return "";
+    }
+
+    return formatCurrency(numericValue);
   }
 
   return (
@@ -132,7 +144,7 @@ export default function DashboardPage() {
                       <Cell key={entry.categoryId} fill={entry.categoryColor} />
                     ))}
                   </Pie>
-                  <Legend/>
+                  <Legend />
                   <Tooltip formatter={formatToolTipValue} />
                 </PieChart>
               </ResponsiveContainer>
@@ -160,7 +172,7 @@ export default function DashboardPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                   <XAxis dataKey="name" stroke="#94A3B8" tick={{ style: { textTransform: "capitalize" } }} />
                   <YAxis stroke="#94A3B8" tickFormatter={formatCurrency} tick={{ style: { fontSize: "12px" } }} />
-                  <Tooltip formatter={formatCurrency} contentStyle={{
+                  <Tooltip formatter={formatToolTipValue} contentStyle={{
                     backgroundColor: "#1a1a1a",
                     borderColor: "#2a2a2a"
                   }}
