@@ -11,6 +11,7 @@ interface Feature {
 
 export default function Home() {
 
+  const currentYear = new Date().getFullYear();
 
   const navigate = useNavigate();
 
@@ -87,7 +88,7 @@ export default function Home() {
 
       <div className="text-center md:text-start my-8">
         <h2 className="text-green-500 ">DevBills</h2>
-        <p>© 2025 - Todos os direitos reservados</p>
+        <p>© {currentYear} - Todos os direitos reservados</p>
       </div>
     </main>
   );
