@@ -102,3 +102,20 @@ No diretório do projeto, você pode executar:
 *   `npm run build`: Compila a aplicação para produção (gera os arquivos otimizados na pasta `dist`).
 *   `npm run lint`: Executa a checagem de erros do linter (ESLint / Biome).
 *   `npm run preview`: Visualiza localmente a build de produção gerada.
+
+---
+
+## 🔮 O que poderia ser feito com mais tempo? (Melhorias Futuras)
+
+Se houvesse mais tempo dedicado a este projeto, os seguintes pontos seriam excelentes melhorias para elevar a robustez e o valor do produto:
+
+### 1. 🧪 Testes Automatizados (Qualidade de Código)
+*   **Testes Unitários e de Componente**: Implementação de testes em componentes críticos (como formulários de transação, campos de input e selects) com [**Vitest**](https://vitest.dev/) e [**React Testing Library**](https://testing-library.com/).
+*   **Testes E2E (Ponta a Ponta)**: Criação de testes de fluxo completo (de login até exclusão de transações) utilizando [**Playwright**](https://playwright.dev/) ou [**Cypress**](https://www.cypress.io/).
+
+### 2. 📈 Novas Funcionalidades Financeiras
+*   **Exportação de Dados**: Funcionalidade de download das transações em formato CSV ou relatórios financeiros consolidados em PDF.
+*   **👤 Edição de Perfil do Usuário**: Funcionalidade de personalização do perfil, permitindo alterar o nome de exibição e realizar o upload/edição da foto de perfil diretamente na aplicação, integrando com o Firebase Storage e o Firebase Auth.
+
+### 3. 🎨 Acessibilidade e Aprimoramentos de UI/UX
+*   **Tema Claro/Escuro (Dark/Light Mode)**: Criação de uma opção de alternância de tema no cabeçalho do app para melhor conforto visual.
