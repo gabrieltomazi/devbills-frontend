@@ -15,8 +15,8 @@ const AuthContext = createContext<AuthContextProps | null>(null)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [authState, setAuthState] = useState<AuthStateProps>({
-    user: null,
-    error: null,
+    user: undefined,
+    error: undefined,
     loading: true
   });
 
@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (!user) {
         setAuthState({
-          user: null,
-          error: null,
+          user: undefined,
+          error: undefined,
           loading: false
         })
         return
@@ -33,16 +33,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setAuthState({
         user: {
           uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoUrl: user.photoURL
+          email: user.email || undefined,
+          displayName: user.displayName || undefined,
+          photoUrl: user.photoURL || undefined
         },
-        error: null,
+        error: undefined,
         loading: false,
       })
     }, (error) => {
       console.error("Erro na autenticação")
-      setAuthState({ user: null, error: error.message, loading: false })
+      setAuthState({ user: undefined, error: error.message, loading: false })
     })
 
     return () => unsubscribe();
