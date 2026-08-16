@@ -53,7 +53,7 @@ export default function Home() {
         <Button variant="primary" onClick={() => navigate('/login')}>Começar agora</Button>
       </div>
 
-      <div className="mt-25 pt-12 px-4 bg-gray-900 rounded-xl">
+      <div className="mt-25 pt-12 px-4 bg-gray-900 border-gray-600 border rounded-xl">
         <h2 className="text-center text-[30px] font-bold">Recursos do DevBills</h2>
         <p className="text-center pb-12">
           Nossa plataforma oferece tudo o que você precisa para manter suas finanças organizadas.
