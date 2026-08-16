@@ -43,7 +43,7 @@ export default function Header() {
 
     return (
       <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white">
-        {authState.user.displayName.charAt(0)}
+        {authState.user.displayName?.charAt(0) || "U"}
       </div>
     )
 
@@ -85,7 +85,7 @@ export default function Header() {
                 {/* AVATAR */}
                 <div className="flex items-center space-x-2">
                   {renderAvatar()}
-                  <span className="text-sm font-medium">{authState.user.displayName}</span>
+                  <span className="text-sm font-medium">{authState.user?.displayName}</span>
                 </div>
 
                 <button type="button">
