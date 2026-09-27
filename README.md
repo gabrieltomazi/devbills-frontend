@@ -1,59 +1,114 @@
-# 💻 DevBills - Frontend
+# ⚙️ DevBills - Backend
 
-O **DevBills** é uma plataforma moderna e intuitiva de controle financeiro pessoal. Este repositório contém o código-fonte do **frontend** da aplicação, construído utilizando práticas modernas de desenvolvimento web para proporcionar uma experiência fluida, rápida e responsiva ao usuário.
+O **DevBills** é uma plataforma moderna e intuitiva de controle financeiro pessoal. Este repositório contém o código-fonte da **API REST (backend)** da aplicação, desenvolvida com foco em alta performance, tipagem estática e segurança.
+
+---
+
+> [!AVISO]
+> **Nota sobre a Hospedagem (Render):** Esta API está hospedada no plano gratuito do **Render**. Consequentemente, após alguns minutos de inatividade, a aplicação entra em modo de repouso. A primeira requisição feita à API pode demorar cerca de **50 a 60 segundos** para responder (tempo necessário para o servidor "acordar"). As chamadas seguintes serão instantâneas.
+
+---
+
+## 🏛️ Arquitetura da Aplicação
+
+### Padrão Arquitetural: MVC
+
+Diferente de uma arquitetura em camadas tradicional rígida (como *Controller-Service-Repository*), este backend adota um **padrão direto centrado em Controllers (Route-Controller-Data Pattern)**:
+
+```mermaid
+graph TD
+    Client([Cliente / Frontend]) --> Routes["1. Camada de Rotas (Fastify Routes)"]
+    Routes --> Middleware["2. Interceptor de Segurança (auth.middleware)"]
+    Middleware --> Controller["3. Camada de Controle (Controllers)"]
+    Controller --> Schema["4. Validação de Entrada (Zod Schemas)"]
+    Controller --> Prisma["5. Acesso a Dados & ORM (Prisma Client)"]
+    Prisma --> Database[(PostgreSQL Database)]
+
+    Boot([Inicialização / Server Boot]) -.-> ServiceSeed["Serviço de Inicialização / globalCategories.service"]
+    ServiceSeed -.-> Prisma
+```
+
+### Por que não utiliza Repository nem Services para cada entidade?
+
+1. **Prisma como Abstração de Dados**: O **Prisma Client** já atua nativamente como uma camada de abstração de dados e *Query Builder* fortemente tipado. Criar uma camada de *Repository* manual adicionaria código redundante (*boilerplate*) sem ganhos práticos para o escopo do projeto.
+2. **Controllers Focados e Autocontidos**: Em vez de concentrar todos os métodos em um único arquivo gigante, as operações de transações foram modularizadas em controladores específicos dentro de `src/controllers/transactions/`:
+   - `createTransaction.controller.ts`: Validação do schema Zod, verificação de categoria e inserção via Prisma.
+   - `getTransactions.controller.ts`: Filtros combinados (tipo, categoria, mês, ano) e listagem.
+   - `getTransactionsSummary.controller.ts`: Agregações, balanço de receitas, despesas e gastos por categoria.
+   - `getHistoryTransaction.controller.ts`: Consolidação do histórico dos últimos meses.
+   - `deleteTransaction.controller.ts`: Remoção atômica de transações por ID.
+3. **Papel da pasta `src/services/`**: A camada de serviços no backend não atua como intermediária de CRUD, mas sim como **Serviços de Infraestrutura e Carga Inicial (Seed/Setup)**, contendo o `globalCategories.service.ts`, responsável por verificar e inicializar as categorias globais padrão no banco ao iniciar o servidor.
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-*   **🔒 Autenticação Integrada**: Login rápido e seguro utilizando o Google Sign-In por meio do Firebase Authentication.
-*   **📊 Dashboard Financeiro**: Gráficos dinâmicos e interativos que mostram a distribuição de despesas por categoria, saldo total, receitas e despesas mensais.
-*   **💸 Gestão de Transações**: Tela dedicada para listagem completa de transações com suporte a criação, filtros e exclusão.
-*   **📅 Filtros Avançados**: Filtre suas transações por Categoria, Tipo (Receita/Despesa) e competência (Mês/Ano).
-*   **🎨 Design Premium**: Interface moderna construída com Tailwind CSS v4, suporte a feedback visual dinâmico com toasts de notificação.
+*   **🛡️ Autenticação com Firebase Admin SDK**: Validação e decodificação do Token JWT enviado pelo frontend nas rotas protegidas via `auth.middleware.ts`.
+*   **📐 Validação de Dados com Zod**: Validação estrita e tipada de parâmetros de rota, query strings e bodies de requisição.
+*   **🗄️ Integração com Prisma ORM e PostgreSQL**: Modelagem relacional entre Usuários, Categorias e Transações com integridade referencial.
+*   **📊 Lógica de Negócios e Agregações**: Agrupamento dinâmico de despesas por categoria, cálculo de balanço mensal e histórico financeiro.
+*   **🌱 Inicialização Automática**: Criação automática de categorias padrão (alimentação, transporte, moradia, salário, etc.) no boot da aplicação.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-O projeto foi construído com as seguintes tecnologias e bibliotecas:
+A API foi desenvolvida utilizando as seguintes tecnologias e bibliotecas:
 
-*   [**React**](https://react.dev/) — Biblioteca para construção de interfaces.
-*   [**TypeScript**](https://www.typescriptlang.org/) — Tipagem estática para maior segurança e produtividade.
-*   [**Vite**](https://vite.dev/) — Build tool ultra rápida para o ecossistema web.
-*   [**Tailwind CSS**](https://tailwindcss.com/) — Framework utilitário para estilização rápida e moderna.
-*   [**Axios**](https://axios-http.com/) — Cliente HTTP para comunicação com a API do backend.
-*   [**Recharts**](https://recharts.org/) — Biblioteca de gráficos interativos para React.
-*   [**Firebase Auth**](https://firebase.google.com/docs/auth) — Serviço de autenticação em nuvem.
-
+*   [**Node.js**](https://nodejs.org/) — Ambiente de execução JavaScript/TypeScript assíncrono.
+*   [**TypeScript**](https://www.typescriptlang.org/) — Superset com tipagem estática rigorosa.
+*   [**Fastify**](https://fastify.dev/) — Framework web de alta performance e baixo overhead.
+*   [**Prisma ORM**](https://www.prisma.io/) — Object-Relational Mapping (ORM) moderno e tipo-seguro.
+*   [**PostgreSQL**](https://www.postgresql.org/) — Banco de dados relacional robusto.
+*   [**Zod**](https://zod.dev/) — Declaração e validação de esquemas de dados em tempo de execução.
+*   [**Firebase Admin SDK**](https://firebase.google.com/docs/admin) — Validação dos tokens de autenticação gerados pelo Google Sign-In.
 
 ---
 
 ## 📂 Estrutura de Pastas
 
-Abaixo está a organização de pastas dentro do diretório `src/`:
-
 ```text
 src/
-├── config/         # Configurações de serviços externos (Firebase, API)
-├── context/        # Contextos do React (como AuthContext)
-├── pages/          # Páginas principais da aplicação (Dashboard, Formulários, etc.)
-├── components/     # Componentes visuais reutilizáveis (Inputs, Botões, Selects)
-├── services/       # Chamadas de API e integração com o backend
-├── types/          # Declaração de interfaces e tipos do TypeScript
-└── utils/          # Funções utilitárias e formatadores
+├── config/                 # Configurações de ambiente, Prisma e Firebase Admin
+│   ├── env.ts              # Validação e tipagem de variáveis de ambiente
+│   ├── firebase.ts         # Inicialização do Firebase Admin SDK
+│   └── prisma.ts           # Instância única e tipada do Prisma Client
+├── controllers/            # Controladores que recebem a requisição, validam e chamam o Prisma
+│   ├── category.controller.ts # Listagem de categorias
+│   └── transactions/       # Controladores dedicados para cada ação de transação
+│       ├── createTransaction.controller.ts
+│       ├── deleteTransaction.controller.ts
+│       ├── getHistoryTransaction.controller.ts
+│       ├── getTransactions.controller.ts
+│       └── getTransactionsSummary.controller.ts
+├── middlewares/            # Interceptadores de requisições
+│   └── auth.middleware.ts  # Verificação do Bearer Token JWT via Firebase Admin
+├── routes/                 # Definição e registro de rotas do Fastify
+│   ├── category.routes.ts  # Endpoints de categorias
+│   ├── transaction.routes.ts # Endpoints de transações financeiras
+│   └── index.ts            # Agrupador central de rotas da API
+├── schemas/                # Esquemas de validação de entrada com Zod
+│   └── transaction.schema.ts
+├── services/               # Serviços de carga inicial e setup do sistema
+│   └── globalCategories.service.ts # Seed e verificação de categorias globais
+├── types/                  # Definição de tipos TypeScript compartilhados
+│   ├── category.types.ts
+│   └── transaction.types.ts
+├── app.ts                  # Configuração de plugins, middlewares e rotas do Fastify
+└── server.ts               # Inicialização da aplicação e escuta na porta HTTP
 ```
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-Siga os passos abaixo para rodar a aplicação localmente:
+Siga os passos abaixo para rodar o backend localmente:
 
 ### Pré-requisitos
 Certifique-se de ter instalado em sua máquina:
-*   [Node.js](https://nodejs.org/)
-*   [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+*   [Node.js](https://nodejs.org/) (versão 18.x ou superior, recomendado 20.x+)
+*   [npm](https://www.npmjs.com/)
+*   Instância de banco de dados [PostgreSQL](https://www.postgresql.org/) (local, Docker ou nuvem como Neon/Supabase)
 
 ---
 
@@ -61,8 +116,8 @@ Certifique-se de ter instalado em sua máquina:
 
 1.  **Clonar o repositório**:
     ```bash
-    git clone https://github.com/gabrieltomazi/devbills-frontend.git
-    cd devbills-frontend
+    git clone https://github.com/gabrieltomazi/devbills-backend.git
+    cd devbills-backend
     ```
 
 2.  **Instalar as dependências**:
@@ -71,51 +126,41 @@ Certifique-se de ter instalado em sua máquina:
     ```
 
 3.  **Configurar as Variáveis de Ambiente**:
-    Duplique o arquivo `.env.example` e renomeie-o para `.env`:
-    ```bash
-    cp .env.example .env
-    ```
-    Preencha os valores das chaves do Firebase e a URL da sua API Backend:
+    Crie um arquivo `.env` na raiz do backend e preencha as variáveis conforme exemplo abaixo:
     ```env
-    VITE_API_URL=http://localhost:3333
-    VITE_FIREBASE_API_KEY=sua_api_key
-    VITE_FIREBASE_AUTH_DOMAIN=seu_auth_domain
-    VITE_FIREBASE_PROJECT_ID=seu_project_id
-    VITE_FIREBASE_STORAGE_BUCKET=seu_storage_bucket
-    VITE_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
-    VITE_FIREBASE_APP_ID=seu_app_id
+    PORT=3333
+    DATABASE_URL="postgresql://usuario:senha@localhost:5432/devbills?schema=public"
+    NODE_ENV="dev"
+    
+    # Credenciais do Firebase Admin
+    FIREBASE_PROJECT_ID="seu-projeto-id"
+    FIREBASE_CLIENT_EMAIL="seu-email-cliente-firebase"
+    FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nsua-chave-privada\n-----END PRIVATE KEY-----\n"
     ```
 
-4.  **Iniciar o Servidor de Desenvolvimento**:
+4.  **Rodar as Migrations do Prisma**:
+    Crie a estrutura do banco de dados executando as migrations:
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5.  **Iniciar o Servidor em Modo de Desenvolvimento**:
     ```bash
     npm run dev
     ```
-    A aplicação estará disponível no endereço indicado no seu terminal (geralmente `http://localhost:5173`).
+    A API estará rodando por padrão na porta `3333` (ex: `http://localhost:3333`).
 
 ---
 
-## ⚙️ Scripts Disponíveis
+## 🛣️ Rotas Principais (Endpoints)
 
-No diretório do projeto, você pode executar:
+Todas as rotas de transação requerem o cabeçalho `Authorization: Bearer <ID_TOKEN_DO_FIREBASE>`.
 
-*   `npm run dev`: Executa a aplicação em modo de desenvolvimento.
-*   `npm run build`: Compila a aplicação para produção (gera os arquivos otimizados na pasta `dist`).
-*   `npm run lint`: Executa a checagem de erros do linter (ESLint / Biome).
-*   `npm run preview`: Visualiza localmente a build de produção gerada.
-
----
-
-## 🔮 O que poderia ser feito com mais tempo? (Melhorias Futuras)
-
-Se houvesse mais tempo dedicado a este projeto, os seguintes pontos seriam excelentes melhorias para elevar a robustez e o valor do produto:
-
-### 1. 🧪 Testes Automatizados (Qualidade de Código)
-*   **Testes Unitários e de Componente**: Implementação de testes em componentes críticos (como formulários de transação, campos de input e selects) com [**Vitest**](https://vitest.dev/) e [**React Testing Library**](https://testing-library.com/).
-*   **Testes E2E (Ponta a Ponta)**: Criação de testes de fluxo completo (de login até exclusão de transações) utilizando [**Playwright**](https://playwright.dev/) ou [**Cypress**](https://www.cypress.io/).
-
-### 2. 📈 Novas Funcionalidades Financeiras
-*   **Exportação de Dados**: Funcionalidade de download das transações em formato CSV ou relatórios financeiros consolidados em PDF.
-*   **👤 Edição de Perfil do Usuário**: Funcionalidade de personalização do perfil, permitindo alterar o nome de exibição e realizar o upload/edição da foto de perfil diretamente na aplicação, integrando com o Firebase Storage e o Firebase Auth.
-
-### 3. 🎨 Acessibilidade e Aprimoramentos de UI/UX
-*   **Tema Claro/Escuro (Dark/Light Mode)**: Criação de uma opção de alternância de tema no cabeçalho do app para melhor conforto visual.
+| Método | Rota | Autenticação | Descrição |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/categories` | Pública / Opcional | Lista todas as categorias cadastradas |
+| **POST** | `/api/transaction` | 🔒 Bearer Token | Cria uma nova transação (receita ou despesa) |
+| **GET** | `/api/transactions` | 🔒 Bearer Token | Lista transações filtradas por mês, ano, tipo e categoria |
+| **GET** | `/api/transactions/summary` | 🔒 Bearer Token | Retorna o balanço, total de despesas, receitas e gastos por categoria |
+| **GET** | `/api/transactions/history` | 🔒 Bearer Token | Retorna o histórico consolidado de receitas/despesas de meses anteriores |
+| **DELETE** | `/api/transactions/:id` | 🔒 Bearer Token | Remove uma transação específica por ID |
